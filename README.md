@@ -21,6 +21,11 @@
   <img src="https://img.shields.io/badge/Zero%20Dependencies-fc1383?style=for-the-badge" alt="Zero Dependencies">
 </p>
 
+<p align="center">
+  <a href="https://github.com/blue0x1/nim-winrm/wiki"><img src="https://img.shields.io/badge/Documentation-08f5f9?style=for-the-badge&logo=gitbook&logoColor=black" alt="Documentation"></a>
+  <a href="https://github.com/blue0x1/nimrm"><img src="https://img.shields.io/badge/nimrm%20CLI-fc1383?style=for-the-badge&logo=windowsterminal&logoColor=white" alt="nimrm CLI"></a>
+</p>
+
 ---
 
 The first and only WinRM library for Nim. A complete, dependency-free implementation of the WinRM protocol stack including NTLM authentication, Kerberos via GSSAPI, PSRP (PowerShell Remoting Protocol), WinRS (Windows Remote Shell), NTLM message encryption, file transfers, and .NET assembly execution.
