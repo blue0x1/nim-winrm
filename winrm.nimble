@@ -4,6 +4,7 @@ author        = "Chokri Hammedi (blue0x1)"
 description   = "Native WinRM client library for Nim"
 license       = "MIT"
 srcDir        = "."
+skipDirs      = @["examples"]
 
 # Dependencies
 requires "nim >= 1.6.0"
