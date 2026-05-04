@@ -28,7 +28,11 @@
 
 ---
 
-The first and only WinRM library for Nim. A complete, dependency-free implementation of the WinRM protocol stack including NTLM authentication, Kerberos via GSSAPI, PSRP (PowerShell Remoting Protocol), WinRS (Windows Remote Shell), NTLM message encryption, file transfers, and .NET assembly execution.
+```bash
+nimble install winrm
+```
+
+A complete, dependency-free implementation of the WinRM protocol stack including NTLM authentication, Kerberos via GSSAPI, PSRP (PowerShell Remoting Protocol), WinRS (Windows Remote Shell), NTLM message encryption, file transfers, and .NET assembly execution.
 
 ## Legal Notice
 
