@@ -1770,6 +1770,7 @@ type
     auth:         AuthMethod
     msgEnc:       MessageEncryption
     useSSL:       bool
+    sslNoVerify:  bool
     port:         int
     shellId*:     string
     sessionId:    string
@@ -1794,14 +1795,21 @@ type
 
 proc newClient*(host, user, pass, ntHash, spn, domain: string,
                auth: AuthMethod, ssl: bool, port: int,
-               msgEnc = meAuto): WinRMClient =
+               msgEnc = meAuto, sslNoVerify = false): WinRMClient =
+  proc makeHc(): HttpClient =
+    when defined(ssl):
+      if ssl and sslNoVerify:
+        let ctx = newContext(verifyMode = CVerifyNone)
+        return newHttpClient(timeout = 60_000, sslContext = ctx)
+    return newHttpClient(timeout = 60_000)
   result = WinRMClient(host: host, username: user, password: pass,
                        ntHash: ntHash,
                        spn: spn,
                        domain: domain, auth: auth, msgEnc: msgEnc, useSSL: ssl,
+                       sslNoVerify: sslNoVerify,
                        port: port,
                        sessionId: genUuid().toUpperAscii(),
-                       hc: (if auth == amNtlm and not ssl: nil else: newHttpClient(timeout = 60_000)),
+                       hc: (if auth == amNtlm and not ssl: nil else: makeHc()),
                        ntlmSock: nil,
                        ntlmReady: false,
                        ctx: nil,
@@ -2007,7 +2015,14 @@ proc resetHttpConnection(c: var WinRMClient) =
   if c.auth == amNtlm and not c.useSSL:
     c.hc = nil
   else:
-    c.hc = newHttpClient(timeout = 60_000)
+    when defined(ssl):
+      if c.useSSL and c.sslNoVerify:
+        let ctx = newContext(verifyMode = CVerifyNone)
+        c.hc = newHttpClient(timeout = 60_000, sslContext = ctx)
+      else:
+        c.hc = newHttpClient(timeout = 60_000)
+    else:
+      c.hc = newHttpClient(timeout = 60_000)
   c.ctx = nil
   c.authenticated = false
   c.ntlmCliSealRC4 = nil
